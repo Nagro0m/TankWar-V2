@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+*.db
+*.json
+*.opendb
+*.db-wal
+*.db-shm
+*.vsidx
+/.vs/TankWar/v17
