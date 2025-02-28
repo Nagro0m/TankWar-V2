@@ -37,3 +37,7 @@
 *.db-shm
 *.vsidx
 /.vs/TankWar/v17
+*.txt
+*.log
+*.lastbuildstate
+/TankWar/x64
