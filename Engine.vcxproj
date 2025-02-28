@@ -201,6 +201,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="SoundSample.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="SquareActor.cpp" />
+    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TransformableObject.cpp" />
@@ -268,6 +269,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="SliderWidget.h" />
     <ClInclude Include="Slot.h" />
     <ClInclude Include="SubclassOf.h" />
+    <ClInclude Include="Tank.h" />
     <ClInclude Include="TransformableObject.h" />
     <ClInclude Include="TransformableViewer.h" />
     <ClInclude Include="TransformableModifier.h" />

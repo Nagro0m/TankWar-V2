@@ -217,6 +217,15 @@
     <Filter Include="Scripts\Examples\CustomActor">
       <UniqueIdentifier>{f2a2544c-d591-4624-960a-2225b3eb45ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tank War">
+      <UniqueIdentifier>{b09a6622-55b8-4e3d-85e2-31e6be4262d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tank War\Actor">
+      <UniqueIdentifier>{ad225a16-cb1e-4c41-a47d-2278f2bf02b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tank War\Actor\Tank">
+      <UniqueIdentifier>{d9f19627-d1bf-46e3-8e6c-daff4f000c31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextObject.cpp">
@@ -428,6 +437,9 @@
     </ClCompile>
     <ClCompile Include="CustomActor.cpp">
       <Filter>Scripts\Examples\CustomActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +685,9 @@
     </ClInclude>
     <ClInclude Include="CustomActor.h">
       <Filter>Scripts\Examples\CustomActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Tank.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
