@@ -99,3 +99,9 @@ void Animation::Stop()
 	Pause();
 	Reset();
 }
+
+void Animation::AddLinkedAnimation(const function<bool()>& _transition, Animation* animation)
+{
+	//const LinkedAnimation& _linkedAnim = LinkedAnimation(_transition, animation);
+	//data.linkedAnimations.push_back(_linkedAnim);
+}

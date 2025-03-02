@@ -102,7 +102,8 @@ public:
 	template <typename Type, typename ...Args, IS_BASE_OF(Actor, Type)>
 	FORCEINLINE Type* SpawnActor(Args&&... _args)
 	{
-		Type* _actor = Spawn<Type>(this, forward<Args>(_args)...);
+		Actor* _baseActor = Spawn<Type>(this, forward<Args>(_args)...); // Retourne Actor*
+		Type* _actor = Cast<Type>(_baseActor); // Cast directement en Type*
 		_actor->Construct();
 		_actor->Register();
 
