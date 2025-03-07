@@ -38,7 +38,7 @@ class MainMenuLevel : public Level
 	HUD* hud;
 	MenuData menu;
 	OptionsMenuData option;
-	MusicSample* music;
+	//MusicSample* music;
 
 public:
 	MainMenuLevel(const string& _name);

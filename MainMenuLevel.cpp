@@ -6,9 +6,9 @@ MainMenuLevel::MainMenuLevel(const string& _name) : Level(_name)
 	hud = nullptr;
 	menu = MenuData();
 	option = OptionsMenuData();
-	music = SpawnSample<MusicSample>("BackgroundMusic", MP3);
-	music->SetLoop(true);
-	music->Stop();
+	//music = SpawnSample<MusicSample>("BackgroundMusic", MP3);
+	//music->SetLoop(true);
+	//music->Stop();
 }
 
 void MainMenuLevel::SetupMenu()
