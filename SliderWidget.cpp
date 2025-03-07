@@ -1,15 +1,14 @@
 #include "SliderWidget.h"
 #include "Level.h"
 
-UI::SliderWidget::SliderWidget(Level* _level, const string _name, const RenderType& _renderType) : Widget(_level, _name, _renderType)
+UI::SliderWidget::SliderWidget(Level* _level, const string& _name, const string _nameSlider, const string _nameButton , const RenderType& _renderType) : Widget(_level, _nameSlider, _renderType)
 {
 	value = 0.0f;
 	minValue = 0.0f;
 	maxValue = 100.0f;
 	step = 1.0f;
-	sliderBar = hud->SpawnWidget<ImageWidget>(RectangleShapeData(Vector2f(100.0f, 10.0f), "White"), _name + "_Bar", _renderType);
-	sliderBar->SetFillColor(Color(128, 128, 128));
-	sliderButton = hud->SpawnWidget<ButtonWidget>(RectangleShapeData(Vector2f(10.0f, 25.0f), "White"), _name + "_Button", _renderType);
+	sliderBar = hud->SpawnWidget<ImageWidget>(RectangleShapeData(Vector2f(300, 30), _nameSlider), _name, _renderType);
+	sliderButton = hud->SpawnWidget<ButtonWidget>(RectangleShapeData(Vector2f(30, 75), _nameButton), _name, _renderType);
 
 	Init();
 }
@@ -18,7 +17,6 @@ UI::SliderWidget::SliderWidget(Level* _level, const string _name, const RenderTy
 void UI::SliderWidget::Init()
 {
 	sliderButton->SetOriginAtMiddle();
-	sliderButton->SetTexture("White");
 	UpdateCursorPosition();
 
 	//Bind

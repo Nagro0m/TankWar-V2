@@ -28,9 +28,14 @@ struct OptionsMenuData
 	ImageWidget* background;
 	LabelWidget* title;
 	ButtonWidget* back;
+	ButtonWidget* mute;
 
+	ImageWidget* inputLayer;
+	SliderWidget* volumeSliderVfx;
+	SliderWidget* volumeSliderMusic;
 	LabelWidget* volumeLabel;
-	SliderWidget* volumeSlider;
+	LabelWidget* vfxLabel;
+	LabelWidget* musicLabel;
 };
 
 class MainMenuLevel : public Level

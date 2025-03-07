@@ -107,6 +107,7 @@ namespace UI
 		}
 		FORCEINLINE float GetValue() const
 		{
+			LOG(Display, to_string(value));
 			return value;
 		}
 		#pragma endregion
@@ -127,7 +128,7 @@ namespace UI
 		}
 		
 	public:
-		SliderWidget(Level* _level, const string _name = "Slider", const RenderType& _renderType = Screen);
+		SliderWidget(Level* _level, const string& _name, const string _nameSlider = "Slider", const string _nameButton = "Button",  const RenderType& _renderType = Screen);
 
 	private: 
 		void Init();

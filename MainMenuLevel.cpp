@@ -149,15 +149,41 @@ void MainMenuLevel::SetupOptionsMenu()
 	option.back->BindOnClickAction([&]() { hud->AddToViewport(menu.canvas);  });
 	option.canvas->AddChild(option.back);
 
-	// Volume Slider
-	option.volumeSlider = hud->SpawnWidget<SliderWidget>("Options_Volume_Slider");
-	option.volumeSlider->SetZOrder(3);
-	option.canvas->AddChild(option.volumeSlider);
+	// InputLayer
+	option.inputLayer = hud->SpawnWidget<ImageWidget>(RectangleShapeData(Vector2f(GetWindowSize().x / 1.5f, GetWindowSize().y / 1.7f), "Menu/Input/InputLayer"), "Setting_InputLayer");
+	option.inputLayer->SetZOrder(3);
+	option.canvas->AddChild(option.inputLayer);
 
-	// Volume Label
-	option.volumeLabel = hud->SpawnWidget<LabelWidget>("Volume :", "Options_Volume_Label");
-	option.volumeLabel->SetZOrder(3);
+	// Volume SliderVfx
+	option.volumeSliderVfx = hud->SpawnWidget<SliderWidget>( "SliderVfx", "Menu/Slider", "Menu/ButtonSlider");
+	option.volumeSliderVfx->SetZOrder(3);
+	option.canvas->AddChild(option.volumeSliderVfx);
+
+	// Volume SliderMusic
+	option.volumeSliderMusic = hud->SpawnWidget<SliderWidget>("SliderMusic", "Menu/Slider", "Menu/ButtonSlider");
+	option.volumeSliderMusic->SetZOrder(3);
+	option.canvas->AddChild(option.volumeSliderMusic);
+
+	// Mute Button
+	/*option.mute = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 40, 40 }, "Menu/Sound"), "Options_mute");
+	option.mute->SetZOrder(3);
+	option.mute->BindOnClickAction([&]() { option.volumeSlider->ToogleActivate();  });
+	option.canvas->AddChild(option.mute);*/
+
+	// volume Label
+	option.volumeLabel = hud->SpawnWidget<LabelWidget>("Volume :");
+	option.volumeLabel->SetZOrder(2);
 	option.canvas->AddChild(option.volumeLabel);
+
+	// vfx Label
+	option.vfxLabel = hud->SpawnWidget<LabelWidget>("vFX");
+	option.vfxLabel->SetZOrder(2);
+	option.canvas->AddChild(option.vfxLabel);
+
+	// music Label
+	option.musicLabel = hud->SpawnWidget<LabelWidget>("MUSIC");
+	option.musicLabel->SetZOrder(2);
+	option.canvas->AddChild(option.musicLabel);
 
 	/////////
 	// Set //
@@ -175,19 +201,47 @@ void MainMenuLevel::SetupOptionsMenu()
 		_slot->SetFillToContent(true);
 	}
 
-	// Volume Slider
-	option.volumeSlider->SetMaxValue(100);
-	option.volumeSlider->SetPosition(Vector2f(GetWindowSize().x / 1.8, GetWindowSize().y / 3.25));
-	option.volumeSlider->GetSliderBar()->SetFillColor(Color(156, 156, 156));
-	option.volumeSlider->GetButton()->SetFillColor(Color(192, 192, 192));
-	option.volumeSlider->GetButton()->BindOnClickAction([&]() { option.volumeSlider->GetButton()->SetFillColor(Color(128, 192, 255)); });
-	option.volumeSlider->GetButton()->BindOnReleaseAction([&]() { option.volumeSlider->GetButton()->SetFillColor(Color(192, 192, 192)); });
+	// InputLayer
+	option.inputLayer->SetOriginAtMiddle();
+	option.inputLayer->SetPosition(Vector2f(GetWindowSize().x / 2, GetWindowSize().y - GetWindowSize().y / 2.5));
 
-	// Volume Label
-	option.volumeLabel->SetFont("Super_Milk", TTF);
-	option.volumeLabel->SetCharacterSize(36);
-	option.volumeLabel->SetFillColor(Color(156, 156, 156));
-	option.volumeLabel->SetPosition(Vector2f(GetWindowSize().x / 1.8, GetWindowSize().y / 4));
+
+	// volume SliderVfx
+	option.volumeSliderVfx->SetMaxValue(100);
+	option.volumeSliderVfx->SetOriginAtMiddle();
+	option.volumeSliderVfx->SetPosition(Vector2f(GetWindowSize().x / 1.5, GetWindowSize().y / 6));
+	//option.volumeSlider->GetButton()->SetFillColor(Color(192, 192, 192));
+	//option.volumeSlider->GetButton()->BindOnClickAction([&]() { option.volumeSlider->GetButton()->SetFillColor(Color(128, 192, 255)); });
+	//option.volumeSlider->GetButton()->BindOnReleaseAction([&]() { option.volumeSlider->GetButton()->SetFillColor(Color(192, 192, 192)); });
+
+	// Volume SliderMusic
+	option.volumeSliderMusic->SetMaxValue(100);
+	option.volumeSliderMusic->SetOriginAtMiddle();
+	option.volumeSliderMusic->SetPosition(Vector2f(GetWindowSize().x / 2.70, GetWindowSize().y / 6));
+
+	//volume Label
+	option.volumeLabel->SetFont("zDirty War", OTF);
+	option.volumeLabel->SetCharacterSize(70);
+	option.volumeLabel->SetFillColor(Color(46, 94, 16));
+	//option.volumeLabel->SetFillColor(Color(100, 168, 50));
+	option.volumeLabel->SetOriginAtMiddle();
+	option.volumeLabel->SetPosition(Vector2f(GetWindowSize().x / 1.91, GetWindowSize().y / 30));
+
+	//vfx Label
+	option.vfxLabel->SetFont("zDirty War", OTF);
+	option.vfxLabel->SetCharacterSize(50);
+	option.vfxLabel->SetFillColor(Color(46, 94, 16));
+	//option.volumeLabel->SetFillColor(Color(100, 168, 50));
+	option.vfxLabel->SetOriginAtMiddle();
+	option.vfxLabel->SetPosition(Vector2f(GetWindowSize().x / 1.5, GetWindowSize().y / 9));
+
+	//music Label
+	option.musicLabel->SetFont("zDirty War", OTF);
+	option.musicLabel->SetCharacterSize(50);
+	option.musicLabel->SetFillColor(Color(46, 94, 16));
+	//option.musicLabel->SetFillColor(Color(100, 168, 50));
+	option.musicLabel->SetOriginAtMiddle();
+	option.musicLabel->SetPosition(Vector2f(GetWindowSize().x / 2.7, GetWindowSize().y / 9));
 }
 
 void MainMenuLevel::InitLevel()
@@ -199,7 +253,7 @@ void MainMenuLevel::InitLevel()
 	SetupMenu();
 	SetupOptionsMenu();
 
-	option.volumeLabel->GetSlot()->SetDebugMode(false);
+	//option.volumeLabel->GetSlot()->SetDebugMode(false);
 	hud->AddToViewport(menu.canvas);
 }
 
