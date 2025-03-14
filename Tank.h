@@ -3,12 +3,17 @@
 #include "MeshComponent.h"
 #include "CollisionComponent.h"
 #include "PlayerController.h"
+#include "TankMovement.h"
 
 class Tank : public Pawn
 {
 	map<string, map<int, int>> joystickButtonByBrand;
 	MeshComponent* mesh;
 	CollisionComponent* collision;
+	TankMovement* movement;
+public:
+	//TODO Setter du tank
+	void SetTankComponents(MeshComponent* _body, MeshComponent* _tracks, MeshComponent* _turrel);
 public:
 	Tank(Level* _level, const string& _name = "Tank");
 	Tank(const Tank& _other);

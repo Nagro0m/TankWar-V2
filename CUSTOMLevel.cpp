@@ -14,6 +14,7 @@
 #include "SliderWidget.h"
 #include "CheckBoxWidget.h"
 #include "PlayerController.h"
+#include "Tank.h"
 
 CUSTOMLevel::CUSTOMLevel(const string& _name) : Level(_name)
 {
@@ -84,6 +85,6 @@ void CUSTOMLevel::InitLevel()
 	}
 
 	SpawnActor<ParticleActor>(1000, 3.0f);
-
+	Tank* _tank = SpawnActor<Tank>("Tank");
 	GetGameMode()->GetHUD()->AddToViewport(canvas);
 }

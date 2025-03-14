@@ -226,6 +226,9 @@
     <Filter Include="Tank War\Actor\Tank">
       <UniqueIdentifier>{d9f19627-d1bf-46e3-8e6c-daff4f000c31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tank War\Level">
+      <UniqueIdentifier>{92c9c0f9-63ad-45d1-add3-6d93da490ba0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextObject.cpp">
@@ -439,6 +442,12 @@
       <Filter>Scripts\Examples\CustomActor</Filter>
     </ClCompile>
     <ClCompile Include="Tank.cpp">
+      <Filter>Tank War\Actor\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TankMovement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -687,6 +696,12 @@
       <Filter>Scripts\Examples\CustomActor</Filter>
     </ClInclude>
     <ClInclude Include="Tank.h">
+      <Filter>Tank War\Actor\Tank</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TankMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
