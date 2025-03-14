@@ -142,10 +142,10 @@ void MainMenuLevel::SetupOptionsMenu()
 	option.canvas->AddChild(option.title);
 
 	// Back Button
-	option.back = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 150.0f, 35.0f }, "Back"), "Options_Quit");
+	option.back = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/Button/BackButton"), "Options_Quit");
 	option.back->SetZOrder(3);
-	option.back->BindOnHoverAction([&]() { option.back->SetFillColor(Color(128, 192, 255));  });
-	option.back->BindOnUnhoverAction([&]() { option.back->SetFillColor(Color(255, 255, 255));  });
+	option.back->BindOnHoverAction([&]() { option.back->SetSize(Vector2f(85, 85));  });
+	option.back->BindOnUnhoverAction([&]() { option.back->SetSize(Vector2f(80, 80));  });
 	option.back->BindOnClickAction([&]() { hud->AddToViewport(menu.canvas);  });
 	option.canvas->AddChild(option.back);
 
@@ -155,12 +155,12 @@ void MainMenuLevel::SetupOptionsMenu()
 	option.canvas->AddChild(option.inputLayer);
 
 	// Volume SliderVfx
-	option.volumeSliderVfx = hud->SpawnWidget<SliderWidget>( "SliderVfx", "Menu/Slider", "Menu/ButtonSlider");
+	option.volumeSliderVfx = hud->SpawnWidget<SliderWidget>( "SliderVfx", "Menu/Button/Slider", "Menu/Button/ButtonSlider");
 	option.volumeSliderVfx->SetZOrder(3);
 	option.canvas->AddChild(option.volumeSliderVfx);
 
 	// Volume SliderMusic
-	option.volumeSliderMusic = hud->SpawnWidget<SliderWidget>("SliderMusic", "Menu/Slider", "Menu/ButtonSlider");
+	option.volumeSliderMusic = hud->SpawnWidget<SliderWidget>("SliderMusic", "Menu/Button/Slider", "Menu/Button/ButtonSlider");
 	option.volumeSliderMusic->SetZOrder(3);
 	option.canvas->AddChild(option.volumeSliderMusic);
 
@@ -196,6 +196,7 @@ void MainMenuLevel::SetupOptionsMenu()
 
 	// Back Button
 	option.back->SetPosition(Vector2f(GetWindowSize().x / 4.4, GetWindowSize().y / 1.25));
+	option.back->SetOriginAtMiddle();
 	if (CanvasSlot* _slot = Cast<CanvasSlot>(option.back->GetSlot()))
 	{
 		_slot->SetFillToContent(true);
