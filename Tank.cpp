@@ -1,7 +1,8 @@
 #include "Tank.h"
 #include "Level.h"
 #include "InputManager.h"
-#define CONTROLLER_DEAD_ZONE 0.2f
+#define CONTROLLER_DEAD_ZONE 0.3f
+
 using namespace Input;
 
 void Tank::SetTankComponents(MeshComponent* _body, MeshComponent* _tracks, MeshComponent* _turrel)
@@ -12,9 +13,9 @@ Tank::Tank(Level* _level, const string& _name) : Pawn(_level, _name)
 {
 	const Vector2f _tankSize = Vector2f(100.0f, 150.0f);
 	mesh = CreateComponent<MeshComponent>(RectangleShapeData(_tankSize, "Tank/Tank_2"));
-	//mesh->GetShape()->SetOrigin(GetOrigin());
+	SetOrigin(_tankSize / 2.0f);
+	mesh->GetShape()->SetOrigin(GetOrigin());
 	movement = CreateComponent<TankMovement>();
-	movement->SetMoveSpeed(10.0f);
 }
 
 Tank::Tank(const Tank& _other) : Pawn(_other)
@@ -61,6 +62,17 @@ void Tank::CollisionExit(const CollisionData& _data)
 
 }
 
+void Tank::Tick(const float _deltaTime)
+{
+	Super::Tick(_deltaTime);
+	MoveMesh();
+}
+
+void Tank::MoveMesh()
+{
+	mesh->GetShape()->SetTransform(GetTransform());
+}
+
 void Tank::JoystickActions(const int _joystickId, Input::InputManager& _inputManager)
 {
 	ActionMap* _controllerAction = _inputManager.CreateActionMap("JoystickMovement");
@@ -70,18 +82,32 @@ void Tank::JoystickActions(const int _joystickId, Input::InputManager& _inputMan
 		{
 			new Action("ControllerY_" + to_string(_joystickId), ActionData(JoystickMoved, _joystickId, Input::InputManager::GetJoystickAxeByBrand(_brandId, "LeftJoystickY")), [&](const float _normal)
 			{
+
 				if (!(_normal > CONTROLLER_DEAD_ZONE || _normal < -CONTROLLER_DEAD_ZONE))
 				{
-					movement->ResetY();
 					return;
 				}
+
 				movement->ProcessYController(_normal);
 
 			}),
 			new Action("ControllerX_" + to_string(_joystickId), ActionData(JoystickMoved, _joystickId, Input::InputManager::GetJoystickAxeByBrand(_brandId, "LeftJoystickX")), [&](const float _normal)
 			{
+				if (!(_normal > CONTROLLER_DEAD_ZONE || _normal < -CONTROLLER_DEAD_ZONE))
+				{
+					movement->ProcessXController(0);
+					return;
+				}
 				movement->ProcessXController(_normal);
 
+			}),
+			new Action("BackButtonRT_" + to_string(_joystickId), ActionData(JoystickMoved, _joystickId, Input::InputManager::GetJoystickAxeByBrand(_brandId, "BackButtons")), [&](const float _normal)
+			{
+				movement->ProcessBackRightController(_normal);			
+			}),
+			new Action("BackButtonLT_" + to_string(_joystickId), ActionData(JoystickMoved, _joystickId, Input::InputManager::GetJoystickAxeByBrand(_brandId, "BackButtonsLeft")), [&](const float _normal)
+			{
+					movement->ProcessBackLeftController(_normal);
 			}),
 			new Action("ButtonA_" + to_string(_joystickId), ActionData(JoystickButtonPressed, _joystickId, Input::InputManager::GetJoystickButtonByBrand(_brandId, "A")), [&]()
 			{

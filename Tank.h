@@ -11,6 +11,7 @@ class Tank : public Pawn
 	MeshComponent* mesh;
 	CollisionComponent* collision;
 	TankMovement* movement;
+
 public:
 	//TODO Setter du tank
 	void SetTankComponents(MeshComponent* _body, MeshComponent* _tracks, MeshComponent* _turrel);
@@ -23,7 +24,8 @@ protected:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
-
+	virtual void Tick(const float _deltaTime) override;
+	void MoveMesh();
 private:
 	void JoystickActions(const int _joystickId, Input::InputManager& _inputManager);
 

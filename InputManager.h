@@ -35,7 +35,8 @@ namespace Input
 				{"RightJoystickX", {{767, KeyType::RightJoystickX}, {2508, KeyType::RightJoystickX} }},
 				{"D_PadX", {{767, KeyType::D_PadX}, {2508, KeyType::D_PadX} }},
 				{"D_PadY", {{767, KeyType::D_PadY}, {2508, KeyType::D_PadY}}},
-				{"BackButtons", {{767, KeyType::BackButtons}, {2508, KeyType::BackButtons}}},
+				{"BackButtons", {{767, KeyType::Joystick_Z}, {2508, KeyType::Joystick_V}}},
+				{"BackButtonsLeft", {{767, KeyType::Joystick_Z}, {2508, KeyType::Joystick_U}}},
 			};
 			return _joystickAxeByBrand.at(_action).at(_joystickBrand);
 		}

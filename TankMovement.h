@@ -6,9 +6,10 @@ class TankMovement : public Component
 {
 protected:
 	float moveSpeed;
+	float maxMoveSpeed;
 	float rotationSpeed;
 	Vector2f direction;
-	float targetRotation;
+	float lastRotation;
 
 public:
 	FORCEINLINE Vector2f GetDirection() const { return direction; }
@@ -34,15 +35,14 @@ public:
 protected: 
 	float InterpAngleConstantTo(float _current, float _target, float _deltaTime, float _speed);
 	virtual void Move(const float _deltaTime);
-	virtual void Rotate(const float _deltaTime);
+	virtual void Rotate(const float _rotation);
 
 public:
-	virtual void Tick(const float _deltaTime);
-	void ResetY();
-	void ResetX();
+	virtual void Tick(const float _deltaTime) override;
 	void ProcessYController(const float _controllerAxisY);
 	void ProcessXController(const float _controllerAxisX);
-	void UpdateDirection();
-	void UpdateRotationTarget();
+	void ProcessBackRightController(const float _controllerBackRight);
+	void ProcessBackLeftController(const float _controllerBackRight);
+	float MapTriggerToSpeed(float triggerValue);
 };
 
