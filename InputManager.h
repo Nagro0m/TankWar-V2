@@ -24,6 +24,35 @@ namespace Input
 			actionsMaps.erase(_name);
 		}
 	public:
+		static FORCEINLINE KeyType GetJoystickAxeByBrand(const int _joystickBrand, const string& _action)
+		{
+			const map<string, map<int, KeyType>>& _joystickAxeByBrand =
+			{
+				//XBOX Axes Name
+				{"LeftJoystickY", {{767, KeyType::LeftJoystickY}, {2508, KeyType::LeftJoystickY} }},
+				{"LeftJoystickX", {{767, KeyType::LeftJoystickX}, {2508, KeyType::LeftJoystickX} }},
+				{"RightJoystickY", {{767, KeyType::RightJoystickY}, {2508, KeyType::RightJoystickY} }},
+				{"RightJoystickX", {{767, KeyType::RightJoystickX}, {2508, KeyType::RightJoystickX} }},
+				{"D_PadX", {{767, KeyType::D_PadX}, {2508, KeyType::D_PadX} }},
+				{"D_PadY", {{767, KeyType::D_PadY}, {2508, KeyType::D_PadY}}},
+				{"BackButtons", {{767, KeyType::Joystick_Z}, {2508, KeyType::Joystick_V}}},
+				{"BackButtonsLeft", {{767, KeyType::Joystick_Z}, {2508, KeyType::Joystick_U}}},
+			};
+			return _joystickAxeByBrand.at(_action).at(_joystickBrand);
+		}
+		static FORCEINLINE int GetJoystickButtonByBrand(const int _joystickBrand, const string& _action)
+		{
+			const map<string, map<int, int>>& _joystickButtonByBrand =
+			{
+				//XBOX Button Name
+				{"A", {{767, 0}, {2508, 1},}},
+				{"B", {{767, 1}, {2508, 2} }},
+				{"X", {{767, 2}, {2508, 0} }},
+				{"Y", {{767, 3}, {2508, 3} }},
+			};
+			return _joystickButtonByBrand.at(_action).at(_joystickBrand);
+		}
+	public:
 		FORCEINLINE bool GetIsKeyHolding(const Key& _key) const
 		{
 			return keysIsHolding.contains(_key);
