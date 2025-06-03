@@ -2,6 +2,7 @@
 #include "LevelManager.h"
 #include "CUSTOMLevel.h"
 #include "MainMenuLevel.h"
+#include "TankCreation.h"
 
 void InitConfig()
 {
@@ -14,7 +15,7 @@ int main()
 {
 	InitConfig();
 
-	MainMenuLevel* _level = new MainMenuLevel("LevelDemo");
+	TankCreation* _level = new TankCreation("LevelDemo");
 	M_LEVEL.SetLevel(_level);
 
 	Engine _engine;

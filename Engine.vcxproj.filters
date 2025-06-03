@@ -442,7 +442,7 @@
       <Filter>Tank War\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="TankCreation.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Tank War\TankCreation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -693,7 +693,7 @@
       <Filter>Tank War\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="TankCreation.h">
-      <Filter>Header Files</Filter>
+      <Filter>Tank War\TankCreation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
