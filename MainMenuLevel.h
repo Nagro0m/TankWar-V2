@@ -51,10 +51,9 @@ public:
 private:
 	void SetupMenu();
 	void SetupOptionsMenu();
-
+	void OpenGame();
 public:
 	virtual void InitLevel() override;
 	virtual void Load() override;
 	virtual void Unload() override;
 };
-

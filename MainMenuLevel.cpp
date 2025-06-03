@@ -1,3 +1,6 @@
+#define NOMINMAX
+#include <Windows.h>
+#include <cstddef>
 #include "MainMenuLevel.h"
 #include "LevelManager.h"
 
@@ -38,7 +41,7 @@ void MainMenuLevel::SetupMenu()
 
 	Vector2f _buttonSize = Vector2f(GetWindowSize().x / 6.4f, GetWindowSize().y / 10.8);
 	Vector2f _buttonSizeOn = Vector2f(_buttonSize * 1.02f);
-	
+
 
 
 	// solo Button
@@ -54,7 +57,11 @@ void MainMenuLevel::SetupMenu()
 	menu.duo->SetZOrder(3);
 	menu.duo->BindOnHoverAction([&]() { menu.duo->SetSize(Vector2f(330, 110));  });
 	menu.duo->BindOnUnhoverAction([&]() { menu.duo->SetSize(Vector2f(300, 100));  });
-	//menu.play->BindOnClickAction([&]() { M_LEVEL.SetLevel(new CyberCafeLevel("cyber"));  });
+	MainMenuLevel* level = this; // ou un pointeur vers ton objet
+
+	menu.duo->BindOnClickAction([level]() {
+		level->OpenGame();
+		});
 	menu.canvas->AddChild(menu.duo);
 
 	// Options Button
@@ -155,7 +162,7 @@ void MainMenuLevel::SetupOptionsMenu()
 	option.canvas->AddChild(option.inputLayer);
 
 	// Volume SliderVfx
-	option.volumeSliderVfx = hud->SpawnWidget<SliderWidget>( "SliderVfx", "Menu/Button/Slider", "Menu/Button/ButtonSlider");
+	option.volumeSliderVfx = hud->SpawnWidget<SliderWidget>("SliderVfx", "Menu/Button/Slider", "Menu/Button/ButtonSlider");
 	option.volumeSliderVfx->SetZOrder(3);
 	option.canvas->AddChild(option.volumeSliderVfx);
 
@@ -243,6 +250,52 @@ void MainMenuLevel::SetupOptionsMenu()
 	//option.musicLabel->SetFillColor(Color(100, 168, 50));
 	option.musicLabel->SetOriginAtMiddle();
 	option.musicLabel->SetPosition(Vector2f(GetWindowSize().x / 2.7, GetWindowSize().y / 9));
+}
+
+void MainMenuLevel::OpenGame()
+{
+	//Récupérer le handle de la fenêtre actuelle
+	HWND hWnd = GetActiveWindow();
+
+	//Lancer l'autre .exe
+	char exePath[MAX_PATH];
+	GetModuleFileNameA(NULL, exePath, MAX_PATH);
+
+	std::string path(exePath);
+	size_t lastSlash = path.find_last_of("\\/");
+	if (lastSlash != std::string::npos)
+	{
+		path = path.substr(0, lastSlash + 1); // Dossier contenant l'exe
+		path += "Tank_WarGame.exe"; // Chemin complet vers ton autre jeu
+	}
+
+	STARTUPINFOA _si = { sizeof(_si) };
+	PROCESS_INFORMATION _pi;
+	BOOL success = CreateProcessA(
+		path.c_str(),
+		NULL,
+		NULL, NULL, FALSE,
+		0, NULL, NULL,
+		&_si, &_pi
+	);
+
+	//Attendre deux secondes avant de fermer cette fenêtre
+
+	if (success)
+	{
+		//Cacher la fenêtre
+		ShowWindow(hWnd, SW_HIDE);
+
+		//Attendre la fin de l'autre programme
+		WaitForSingleObject(_pi.hProcess, INFINITE);
+
+		// Nettoyage
+		CloseHandle(_pi.hProcess);
+		CloseHandle(_pi.hThread);
+	}
+
+	//Réafficher la fenêtre
+	ShowWindow(hWnd, SW_SHOW);
 }
 
 void MainMenuLevel::InitLevel()
