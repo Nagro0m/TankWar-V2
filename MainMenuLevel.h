@@ -6,6 +6,7 @@
 #include "LabelWidget.h"
 #include "SliderWidget.h"
 #include "TimerManager.h"
+#include "TankCreation.h"
 #include "MusicSample.h"
 
 using namespace UI;
@@ -42,6 +43,7 @@ class MainMenuLevel : public Level
 {
 	HUD* hud;
 	MenuData menu;
+	TankCreation* creationMenu;
 	OptionsMenuData option;
 	//MusicSample* music;
 
@@ -52,6 +54,8 @@ private:
 	void SetupMenu();
 	void SetupOptionsMenu();
 	void OpenGame();
+	void InitLevelSolo();
+	void InitLevelDuo();
 public:
 	virtual void InitLevel() override;
 	virtual void Load() override;

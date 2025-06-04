@@ -54,6 +54,7 @@ private:
 
 public:
 	virtual void InitLevel() override;
+	void OpenGame();
 	virtual void Load() override;
 	virtual void Unload() override;
 };

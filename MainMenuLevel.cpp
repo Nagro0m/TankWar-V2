@@ -8,6 +8,7 @@ MainMenuLevel::MainMenuLevel(const string& _name) : Level(_name)
 {
 	hud = nullptr;
 	menu = MenuData();
+	creationMenu = nullptr;
 	option = OptionsMenuData();
 	//music = SpawnSample<MusicSample>("BackgroundMusic", MP3);
 	//music->SetLoop(true);
@@ -42,6 +43,7 @@ void MainMenuLevel::SetupMenu()
 	Vector2f _buttonSize = Vector2f(GetWindowSize().x / 6.4f, GetWindowSize().y / 10.8);
 	Vector2f _buttonSizeOn = Vector2f(_buttonSize * 1.02f);
 
+	MainMenuLevel* level = this; // ou un pointeur vers ton objet
 
 
 	// solo Button
@@ -49,7 +51,7 @@ void MainMenuLevel::SetupMenu()
 	menu.solo->SetZOrder(3);
 	menu.solo->BindOnHoverAction([&]() { menu.solo->SetSize(Vector2f(330, 110));  });
 	menu.solo->BindOnUnhoverAction([&]() { menu.solo->SetSize(Vector2f(300, 100));  });
-	//menu.play->BindOnClickAction([&]() { M_LEVEL.SetLevel(new CyberCafeLevel("cyber"));  });
+	menu.solo->BindOnClickAction([level]() { level->InitLevelDuo();	});
 	menu.canvas->AddChild(menu.solo);
 
 	// duo Button
@@ -57,11 +59,8 @@ void MainMenuLevel::SetupMenu()
 	menu.duo->SetZOrder(3);
 	menu.duo->BindOnHoverAction([&]() { menu.duo->SetSize(Vector2f(330, 110));  });
 	menu.duo->BindOnUnhoverAction([&]() { menu.duo->SetSize(Vector2f(300, 100));  });
-	MainMenuLevel* level = this; // ou un pointeur vers ton objet
 
-	menu.duo->BindOnClickAction([level]() {
-		level->OpenGame();
-		});
+	menu.duo->BindOnClickAction([level]() {	level->InitLevelDuo(); });
 	menu.canvas->AddChild(menu.duo);
 
 	// Options Button
@@ -296,6 +295,18 @@ void MainMenuLevel::OpenGame()
 
 	//Réafficher la fenêtre
 	ShowWindow(hWnd, SW_SHOW);
+}
+
+void MainMenuLevel::InitLevelSolo()
+{
+	creationMenu = new TankCreation("TankWarSolo", 1);
+	M_LEVEL.SetLevel(creationMenu);
+}
+
+void MainMenuLevel::InitLevelDuo()
+{
+	creationMenu = new TankCreation("TankWar Duo", 2);
+	M_LEVEL.SetLevel(creationMenu);
 }
 
 void MainMenuLevel::InitLevel()

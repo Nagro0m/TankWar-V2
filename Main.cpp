@@ -15,7 +15,7 @@ int main()
 {
 	InitConfig();
 
-	TankCreation* _level = new TankCreation("LevelDemo");
+	MainMenuLevel* _level = new MainMenuLevel("MainMenu");
 	M_LEVEL.SetLevel(_level);
 
 	Engine _engine;

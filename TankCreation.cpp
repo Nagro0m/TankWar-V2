@@ -1,3 +1,6 @@
+#define NOMINMAX
+#include <Windows.h>
+#include <cstddef>
 #include "TankCreation.h"
 #include "LevelManager.h"
 
@@ -40,9 +43,9 @@ void TankCreation::UpdateTankVisual(const int _playerIndex)
 	}
 	else
 	{
-		menuSecond.hull->SetTexture("Menu/Tank/Hulls" + _suffix + "/Hull_" + to_string(menuFirst.currentHullIndex + 1));
-		menuSecond.turret->SetTexture("Menu/Tank/Weapons" + _suffix + "/Gun_" + to_string(menuFirst.currentTurretIndex + 1));
-		menuSecond.track->SetTexture("Menu/Tank/Tracks/Track_" + to_string(menuFirst.currentTrackIndex + 1));
+		menuSecond.hull->SetTexture("Menu/Tank/Hulls" + _suffix + "/Hull_" + to_string(menuSecond.currentHullIndex + 1));
+		menuSecond.turret->SetTexture("Menu/Tank/Weapons" + _suffix + "/Gun_" + to_string(menuSecond.currentTurretIndex + 1));
+		menuSecond.track->SetTexture("Menu/Tank/Tracks/Track_" + to_string(menuSecond.currentTrackIndex + 1));
 	}
 }
 
@@ -81,7 +84,6 @@ void TankCreation::SetupMenu()
 	menuFirst.background = hud->SpawnWidget<ImageWidget>(RectangleShapeData(GetWindowSize(), "Menu/BackGround/MenuBackground"), "Menu_Background");
 	menuFirst.canvas->AddChild(menuFirst.background);
 
-
 	// Workbench
 	menuFirst.workbench = hud->SpawnWidget<ImageWidget>(RectangleShapeData(Vector2f(GetWindowSize().x / 3.0f, GetWindowSize().y / 2), "Menu/SelectMenu"), "Select_Menu");
 	menuFirst.workbench->SetZOrder(2);
@@ -109,20 +111,20 @@ void TankCreation::SetupMenu()
 	menuFirst.previous->BindOnUnhoverAction([&]() { menuFirst.previous->SetSize(Vector2f(80, 80)); });
 	menuFirst.previous->BindOnClickAction([&]()
 	{
-			switch (menuFirst.currentCategoryIndex)
-	{
-	case 0:
-		menuFirst.currentHullIndex = (menuFirst.currentHullIndex - 1 + 8) % 8;
-		break;
-	case 1:
-		menuFirst.currentTrackIndex = (menuFirst.currentTrackIndex - 1 + 4) % 4;
-		break;
-	case 2:
-		menuFirst.currentTurretIndex = (menuFirst.currentTurretIndex - 1 + 8) % 8;
-		break;
-	}
-	UpdateTankVisual(1);
-		});
+		switch (menuFirst.currentCategoryIndex)
+		{
+		case 0:
+			menuFirst.currentHullIndex = (menuFirst.currentHullIndex - 1 + 8) % 8;
+			break;
+		case 1:
+			menuFirst.currentTrackIndex = (menuFirst.currentTrackIndex - 1 + 4) % 4;
+			break;
+		case 2:
+			menuFirst.currentTurretIndex = (menuFirst.currentTurretIndex - 1 + 8) % 8;
+			break;
+		}
+		UpdateTankVisual(1);
+	});
 
 	menuFirst.canvas->AddChild(menuFirst.previous);
 
@@ -132,7 +134,7 @@ void TankCreation::SetupMenu()
 	menuFirst.next->BindOnHoverAction([&]() { menuFirst.next->SetSize(Vector2f(85, 85)); });
 	menuFirst.next->BindOnUnhoverAction([&]() { menuFirst.next->SetSize(Vector2f(80, 80)); });
 	menuFirst.next->BindOnClickAction([&]()
-		{
+	{
 		switch (menuFirst.currentCategoryIndex)
 		{
 		case 0:
@@ -146,7 +148,7 @@ void TankCreation::SetupMenu()
 			break;
 		}
 		UpdateTankVisual(1);
-		});
+	});
 	menuFirst.canvas->AddChild(menuFirst.next);
 
 	// Select Button
@@ -162,11 +164,11 @@ void TankCreation::SetupMenu()
 	menuFirst.canvas->AddChild(menuFirst.select);
 
 	// Quit Button
-	menuFirst.quit = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/Cross"), "Creation_Quit");
+	menuFirst.quit = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 400, 130 }, "Menu/TankCreation/ValidateButton"), "Creation_Quit");
 	menuFirst.quit->SetZOrder(3);
-	menuFirst.quit->BindOnHoverAction([&]() { menuFirst.quit->SetSize(Vector2f(85, 85)); });
-	menuFirst.quit->BindOnUnhoverAction([&]() { menuFirst.quit->SetSize(Vector2f(80, 80)); });
-	menuFirst.quit->BindOnClickAction([&]() { M_LEVEL.SetLevel("MainMenu"); });
+	menuFirst.quit->BindOnHoverAction([&]() { menuFirst.quit->SetSize(Vector2f(405, 135)); });
+	menuFirst.quit->BindOnUnhoverAction([&]() { menuFirst.quit->SetSize(Vector2f(400, 130)); });
+	menuFirst.quit->BindOnClickAction([&]() { TankCreation::OpenGame(); });
 	menuFirst.canvas->AddChild(menuFirst.quit);
 
 	// Tank Part Text
@@ -181,40 +183,46 @@ void TankCreation::SetupMenu()
 	const float _midOfScreenX = GetWindowSize().x / 2.0f;
 	const float _midOfScreenY = GetWindowSize().y / 2.0f;
 
-	
+	// Décalage horizontal : 0 si 1 joueur (centré), sinon décalé vers la droite
+	int _xOffset = 0;
+	if (playerCount == 1)
+	{
+		_xOffset = GetWindowSize().x / 2; // Décale tous les éléments sur la moitié droite
+	}
 
 	// Workbench
-	menuFirst.workbench->SetPosition(Vector2f(GetWindowSize().x / 4, GetWindowSize().y / 2));
+	menuFirst.workbench->SetPosition(Vector2f(_xOffset + GetWindowSize().x / 4, GetWindowSize().y / 2));
 	menuFirst.workbench->SetOriginAtMiddle();
 
 	// Previous Button
-	menuFirst.previous->SetPosition(Vector2f(GetWindowSize().x / 7, GetWindowSize().y / 2));
+	menuFirst.previous->SetPosition(Vector2f(_xOffset + GetWindowSize().x / 7, GetWindowSize().y / 2));
 	menuFirst.previous->SetOriginAtMiddle();
 
 	// Next Button
-	menuFirst.next->SetPosition(Vector2f(GetWindowSize().x / 2.8, GetWindowSize().y / 2));
+	menuFirst.next->SetPosition(Vector2f(_xOffset + GetWindowSize().x / 2.8, GetWindowSize().y / 2));
 	menuFirst.next->SetOriginAtMiddle();
 
 	// Select Button
-	menuFirst.select->SetPosition(Vector2f(GetWindowSize().x / 4, GetWindowSize().y - GetWindowSize().y / 3));
+	menuFirst.select->SetPosition(Vector2f(_xOffset + GetWindowSize().x / 4, GetWindowSize().y - GetWindowSize().y / 3));
 	menuFirst.select->SetOriginAtMiddle();
 
-	// Quit Button
-	menuFirst.quit->SetPosition(Vector2f(GetWindowSize().x - GetWindowSize().x / 10, GetWindowSize().y - GetWindowSize().y / 10));
+	// Continue Button
+	menuFirst.quit->SetPosition(Vector2f(_xOffset + GetWindowSize().x / 2, GetWindowSize().y - GetWindowSize().y / 8));
 	menuFirst.quit->SetOriginAtMiddle();
 
 	// Tank Part Text
 	menuFirst.tankPartText->SetOriginAtMiddle();
-	menuFirst.tankPartText->SetPosition(Vector2f(GetWindowSize().x / 4, GetWindowSize().y/3));
+	menuFirst.tankPartText->SetPosition(Vector2f(_xOffset + GetWindowSize().x / 4, GetWindowSize().y / 3));
 
+	// Pièces du tank
 	menuFirst.track->SetOriginAtMiddle();
 	menuFirst.track->SetPosition(menuFirst.workbench->GetPosition());
-	
+
 	menuFirst.hull->SetOriginAtMiddle();
 	menuFirst.hull->SetPosition(menuFirst.workbench->GetPosition());
 
 	menuFirst.turret->SetOriginAtMiddle();
-	menuFirst.turret->SetPosition(menuFirst.workbench->GetPosition()- Vector2f(0, 20));
+	menuFirst.turret->SetPosition(menuFirst.workbench->GetPosition() - Vector2f(0, 20));
 
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -223,39 +231,86 @@ void TankCreation::SetupMenu()
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 
-
-
 	// Workbench
-	menuSecond.workbench = hud->SpawnWidget<ImageWidget>(RectangleShapeData(Vector2f(GetWindowSize().x / 3.0f, GetWindowSize().y / 2), "Menu/SelectMenu"), "Select_Menu");
+	menuSecond.workbench = hud->SpawnWidget<ImageWidget>(RectangleShapeData(Vector2f(GetWindowSize().x / 3.0f, GetWindowSize().y / 2), "Menu/SelectMenu"), "Select_Menu_2");
 	menuSecond.workbench->SetZOrder(2);
 	menuFirst.canvas->AddChild(menuSecond.workbench);
 
+
+	menuSecond.track = hud->SpawnWidget<UI::ImageWidget>(RectangleShapeData({ 185, 273 }, "Menu/Tank/Tracks/Track_1"), "Track");
+	menuSecond.track->SetZOrder(3);
+	menuFirst.canvas->AddChild(menuSecond.track);
+
+
+	menuSecond.hull = hud->SpawnWidget<UI::ImageWidget>(RectangleShapeData({ 256, 256 }, "Menu/Tank/Hulls_2/Hull_1"), "Hull");
+	menuSecond.hull->SetZOrder(4);
+	menuFirst.canvas->AddChild(menuSecond.hull);
+
+
+	menuSecond.turret = hud->SpawnWidget<UI::ImageWidget>(RectangleShapeData({ 94, 212 }, "Menu/Tank/Weapons_2/Gun_1"), "Turret");
+	menuSecond.turret->SetZOrder(5);
+	menuFirst.canvas->AddChild(menuSecond.turret);
+
 	// Previous Button
-	menuSecond.previous = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/LeftArrow"), "Left_Arrow");
+	menuSecond.previous = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/LeftArrow"), "Left_Arrow_2");
 	menuSecond.previous->SetZOrder(3);
 	menuSecond.previous->BindOnHoverAction([&]() { menuSecond.previous->SetSize(Vector2f(85, 85)); });
 	menuSecond.previous->BindOnUnhoverAction([&]() { menuSecond.previous->SetSize(Vector2f(80, 80)); });
-	menuSecond.previous->BindOnClickAction([&]() {});
+	menuSecond.previous->BindOnClickAction([&]()
+		{
+			switch (menuSecond.currentCategoryIndex)
+			{
+			case 0:
+				menuSecond.currentHullIndex = (menuSecond.currentHullIndex - 1 + 8) % 8;
+				break;
+			case 1:
+				menuSecond.currentTrackIndex = (menuSecond.currentTrackIndex - 1 + 4) % 4;
+				break;
+			case 2:
+				menuSecond.currentTurretIndex = (menuSecond.currentTurretIndex - 1 + 8) % 8;
+				break;
+			}
+			UpdateTankVisual(2);
+		});
 	menuFirst.canvas->AddChild(menuSecond.previous);
 
 	// Next Button
-	menuSecond.next = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/RightArrow"), "Right_Arrow");
+	menuSecond.next = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/RightArrow"), "Right_Arrow_2");
 	menuSecond.next->SetZOrder(3);
 	menuSecond.next->BindOnHoverAction([&]() { menuSecond.next->SetSize(Vector2f(85, 85)); });
 	menuSecond.next->BindOnUnhoverAction([&]() { menuSecond.next->SetSize(Vector2f(80, 80)); });
-	menuSecond.next->BindOnClickAction([&]() {});
+	menuSecond.next->BindOnClickAction([&]()
+	{
+		switch (menuSecond.currentCategoryIndex)
+		{
+		case 0:
+			menuSecond.currentHullIndex = (menuSecond.currentHullIndex + 1) % 8;
+			break;
+		case 1:
+			menuSecond.currentTrackIndex = (menuSecond.currentTrackIndex + 1) % 4;
+			break;
+		case 2:
+			menuSecond.currentTurretIndex = (menuSecond.currentTurretIndex + 1) % 8;
+			break;
+		}
+		UpdateTankVisual(2);
+	});
 	menuFirst.canvas->AddChild(menuSecond.next);
 
 	// Select Button
-	menuSecond.select = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/Validation"), "Creation_Select");
+	menuSecond.select = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/Validation"), "Creation_Select_2");
 	menuSecond.select->SetZOrder(3);
 	menuSecond.select->BindOnHoverAction([&]() { menuSecond.select->SetSize(Vector2f(85, 85)); });
 	menuSecond.select->BindOnUnhoverAction([&]() { menuSecond.select->SetSize(Vector2f(80, 80)); });
-	menuSecond.select->BindOnClickAction([&]() {});
+	menuSecond.select->BindOnClickAction([&]()
+		{
+			menuSecond.currentCategoryIndex = (menuSecond.currentCategoryIndex + 1) % 3;
+			menuSecond.tankPartText->SetTexture("Menu/TankCreation/" + GetCategoryName(menuSecond.currentCategoryIndex) + "Button");
+		});	
 	menuFirst.canvas->AddChild(menuSecond.select);
 
 	// Quit Button
-	menuSecond.quit = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/Cross"), "Creation_Quit");
+	menuSecond.quit = hud->SpawnWidget<ButtonWidget>(RectangleShapeData({ 80, 80 }, "Menu/TankCreation/Cross"), "Creation_Quit_2");
 	menuSecond.quit->SetZOrder(3);
 	menuSecond.quit->BindOnHoverAction([&]() { menuSecond.quit->SetSize(Vector2f(85, 85)); });
 	menuSecond.quit->BindOnUnhoverAction([&]() { menuSecond.quit->SetSize(Vector2f(80, 80)); });
@@ -263,7 +318,7 @@ void TankCreation::SetupMenu()
 	menuFirst.canvas->AddChild(menuSecond.quit);
 
 	// Tank Part Text
-	menuSecond.tankPartText = hud->SpawnWidget<ImageWidget>(RectangleShapeData({ 400, 100 }, "Menu/TankCreation/TrackButton"), "Creation_TankPartText");
+	menuSecond.tankPartText = hud->SpawnWidget<ImageWidget>(RectangleShapeData({ 400, 100 }, "Menu/TankCreation/TrackButton"), "Creation_TankPartText_2");
 	menuSecond.tankPartText->SetZOrder(3);
 	menuFirst.canvas->AddChild(menuSecond.tankPartText);
 
@@ -288,17 +343,79 @@ void TankCreation::SetupMenu()
 	menuSecond.select->SetPosition(Vector2f(GetWindowSize().x / 4 + _midOfScreenX, GetWindowSize().y - GetWindowSize().y / 3));
 	menuSecond.select->SetOriginAtMiddle();
 
-	// Quit Button
-	menuSecond.quit->SetPosition(Vector2f(GetWindowSize().x - GetWindowSize().x / 10 + _midOfScreenX, GetWindowSize().y - GetWindowSize().y / 10));
-	menuSecond.quit->SetOriginAtMiddle();
+	//// Quit Button
+	//menuSecond.quit->SetPosition(Vector2f(GetWindowSize().x - GetWindowSize().x / 10 + _midOfScreenX, GetWindowSize().y - GetWindowSize().y / 10));
+	//menuSecond.quit->SetOriginAtMiddle();
 
 	// Tank Part Text
-	menuSecond.tankPartText->SetPosition(Vector2f(GetWindowSize().x / 4 + _midOfScreenX, GetWindowSize().y / 3));
 	menuSecond.tankPartText->SetOriginAtMiddle();
+	menuSecond.tankPartText->SetPosition(Vector2f(GetWindowSize().x / 4 + _midOfScreenX, GetWindowSize().y / 3));
+
+	menuSecond.track->SetOriginAtMiddle();
+	menuSecond.track->SetPosition(menuSecond.workbench->GetPosition());
+
+	menuSecond.hull->SetOriginAtMiddle();
+	menuSecond.hull->SetPosition(menuSecond.workbench->GetPosition());
+
+	menuSecond.turret->SetOriginAtMiddle();
+	menuSecond.turret->SetPosition(menuSecond.workbench->GetPosition() - Vector2f(0, 20));
 }
 
 
+void TankCreation::OpenGame()
+{
 
+	ofstream _file("gameData.txt");
+	_file << "";
+	_file.clear();
+
+	const string& _data = "playerCount:" + to_string(playerCount) + "\ntrack:" + to_string(menuFirst.currentTrackIndex+1) + "-" + to_string(menuSecond.currentTrackIndex+1) + "\nhull:" + to_string(menuFirst.currentHullIndex+1) + "-" + to_string(menuSecond.currentHullIndex+1) + "\nweapon:" + to_string(menuFirst.currentTurretIndex+1) + "-" + to_string(menuSecond.currentTurretIndex+1);
+	_file << _data;
+	_file.close();
+
+	//Récupérer le handle de la fenêtre actuelle
+	HWND hWnd = GetActiveWindow();
+
+	//Lancer l'autre .exe
+	char exePath[MAX_PATH];
+	GetModuleFileNameA(NULL, exePath, MAX_PATH);
+
+	std::string path(exePath);
+	size_t lastSlash = path.find_last_of("\\/");
+	if (lastSlash != std::string::npos)
+	{
+		path = path.substr(0, lastSlash + 1); // Dossier contenant l'exe
+		path += "Tank_WarGame.exe"; // Chemin complet vers ton autre jeu
+	}
+
+	STARTUPINFOA _si = { sizeof(_si) };
+	PROCESS_INFORMATION _pi;
+	BOOL success = CreateProcessA(
+		path.c_str(),
+		NULL,
+		NULL, NULL, FALSE,
+		0, NULL, NULL,
+		&_si, &_pi
+	);
+
+	//Attendre deux secondes avant de fermer cette fenêtre
+
+	if (success)
+	{
+		//Cacher la fenêtre
+		ShowWindow(hWnd, SW_HIDE);
+
+		//Attendre la fin de l'autre programme
+		WaitForSingleObject(_pi.hProcess, INFINITE);
+
+		// Nettoyage
+		CloseHandle(_pi.hProcess);
+		CloseHandle(_pi.hThread);
+	}
+
+	//Réafficher la fenêtre
+	ShowWindow(hWnd, SW_SHOW);
+}
 
 void TankCreation::Load()
 {
