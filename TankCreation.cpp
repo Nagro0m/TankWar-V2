@@ -81,7 +81,7 @@ void TankCreation::SetupMenu()
 	menuFirst.canvas->SetSize(CAST(Vector2f, GetWindowSize()));
 
 	// Background
-	menuFirst.background = hud->SpawnWidget<ImageWidget>(RectangleShapeData(GetWindowSize(), "Menu/BackGround/MenuBackground"), "Menu_Background");
+	menuFirst.background = hud->SpawnWidget<ImageWidget>(RectangleShapeData(GetWindowSize(), "Menu/BackGround/CreatorBackground"), "Menu_Background");
 	menuFirst.canvas->AddChild(menuFirst.background);
 
 	// Workbench
