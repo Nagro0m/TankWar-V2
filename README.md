@@ -1,3 +1,6 @@
+![Logo](https://github.com/Nagro0m/TankWar-V2/blob/main/x64/Debug/Assets/Textures/Menu/TitleWithTank.png?raw=true)
+
+
 # Tank War
 
 Tank War is my first game, created in two weeks with a colleague. 
@@ -21,5 +24,4 @@ Tank War was the very first project created at the school, and it was the one th
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/Nagro0m)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/morgan-fourquet-57148b26a/)
 
-![Logo](https://raw.githubusercontent.com/Nagro0m/TankWar-V2/refs/heads/main/Assets/Logo/AppLogo.png)
 
